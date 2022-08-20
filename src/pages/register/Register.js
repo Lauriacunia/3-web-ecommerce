@@ -34,6 +34,7 @@ const Register = () => {
 
       alert("Las contraseñas no coinciden");
     } else {
+      console.log("form", form);
       axios
         .post(`${BASE_URL}${PATH}`, form)
         .then(function (response) {
@@ -122,7 +123,7 @@ const Register = () => {
               <Input
                 id="my-input"
                 name="confirmPassword"
-                value={form.password2}
+                value={confirmPassword.confirmPassword}
                 onChange={(e) =>
                   setConfirmPassword({
                     ...confirmPassword,
@@ -136,7 +137,11 @@ const Register = () => {
         </Grid>
         <Grid container spacing={2} justifyContent="flex-end">
           <Grid>
-            <Button sx={{ marginTop: "100px" }} variant="outlined">
+            <Button
+              sx={{ marginTop: "100px" }}
+              variant="outlined"
+              onClick={onSubmit}
+            >
               Registrarse
             </Button>
           </Grid>
