@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid";
 import axios from "axios";
 
 const Login = () => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL_API;
   const PATH = "/login";
   const [form, setForm] = useState({
     email: "",
@@ -19,7 +20,7 @@ const Login = () => {
     e.preventDefault();
 
     axios
-      .post(`http://localhost:8080/api${PATH}`, form)
+      .post(`${BASE_URL}${PATH}`, form)
       .then(function (response) {
         console.log(response);
       })

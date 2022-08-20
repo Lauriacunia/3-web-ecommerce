@@ -7,12 +7,13 @@ import Grid from "@mui/material/Grid";
 import axios from "axios";
 
 const Products = () => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL_API;
   const PATH = "/productos";
   const [resultados, setResultados] = useState([]);
-
+  console.log(BASE_URL);
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api${PATH}`)
+      .get(`${BASE_URL}${PATH}`)
       .then(function (response) {
         // handle success
         console.log(response);

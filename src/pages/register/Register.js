@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 
 const Register = () => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL_API;
   const PATH = "/registro";
   const [form, setForm] = useState({
     nombre: "",
@@ -19,18 +20,29 @@ const Register = () => {
     password: "",
     imagen: "",
   });
+  const [confirmPassword, setConfirmPassword] = useState({
+    confirmPassword: "",
+  });
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    //check if password is equal to confirm password
+    console.log(form.password);
+    console.log(confirmPassword.confirmPassword);
+    if (form.password != confirmPassword.confirmPassword) {
+      console.log("password not equal to confirm password");
 
-    axios
-      .post(`http://localhost:8080/api${PATH}`, form)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      alert("Las contraseñas no coinciden");
+    } else {
+      axios
+        .post(`${BASE_URL}${PATH}`, form)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -52,13 +64,25 @@ const Register = () => {
           <Grid item>
             <FormControl sx={{ m: 1, width: "230px", marginBottom: "20px" }}>
               <InputLabel htmlFor="my-input">Nombre</InputLabel>
-              <Input id="nombre" aria-describedby="my-helper-text" />
+              <Input
+                id="nombre"
+                name="nombre"
+                value={form.nombre}
+                onChange={(e) => setForm({ ...form, nombre: e.target.value })}
+                aria-describedby="my-helper-text"
+              />
             </FormControl>
           </Grid>
           <Grid item>
             <FormControl sx={{ m: 1, width: "230px", marginBottom: "20px" }}>
               <InputLabel htmlFor="my-input">Apellido</InputLabel>
-              <Input id="apellido" aria-describedby="my-helper-text" />
+              <Input
+                id="apellido"
+                name="apellido"
+                value={form.apellido}
+                onChange={(e) => setForm({ ...form, apellido: e.target.value })}
+                aria-describedby="my-helper-text"
+              />
             </FormControl>
           </Grid>
         </Grid>
@@ -83,13 +107,30 @@ const Register = () => {
           <Grid item>
             <FormControl sx={{ m: 1, width: "230px", marginBottom: "20px" }}>
               <InputLabel htmlFor="my-input">Nueva Contraseña</InputLabel>
-              <Input id="my-input" aria-describedby="my-helper-text" />
+              <Input
+                id="my-input"
+                name="password"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                aria-describedby="my-helper-text"
+              />
             </FormControl>
           </Grid>
           <Grid item>
             <FormControl sx={{ m: 1, width: "230px", marginBottom: "20px" }}>
               <InputLabel htmlFor="my-input">Repita Contraseña</InputLabel>
-              <Input id="my-input" aria-describedby="my-helper-text" />
+              <Input
+                id="my-input"
+                name="confirmPassword"
+                value={form.password2}
+                onChange={(e) =>
+                  setConfirmPassword({
+                    ...confirmPassword,
+                    confirmPassword: e.target.value,
+                  })
+                }
+                aria-describedby="my-helper-text"
+              />
             </FormControl>
           </Grid>
         </Grid>
