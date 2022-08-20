@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import FormControl from "@mui/material/FormControl";
@@ -8,8 +8,31 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
 
 const Register = () => {
+  const PATH = "/registro";
+  const [form, setForm] = useState({
+    nombre: "",
+    apellido: "",
+    email: "",
+    password: "",
+    imagen: "",
+  });
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    axios
+      .post(`http://localhost:8080/api${PATH}`, form)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -43,7 +66,13 @@ const Register = () => {
           <Grid item>
             <FormControl sx={{ m: 1, width: "350px", marginBottom: "20px" }}>
               <InputLabel htmlFor="my-input">Email</InputLabel>
-              <Input id="email" aria-describedby="my-helper-text" />
+              <Input
+                id="email"
+                name="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                aria-describedby="my-helper-text"
+              />
               <FormHelperText id="my-helper-text">
                 We'll never share your email.
               </FormHelperText>
