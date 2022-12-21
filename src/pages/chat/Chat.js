@@ -26,23 +26,23 @@ const Chat = () => {
   useEffect(() => {
     /** Creo un fake User */
     const currentUser = {
-      id: faker.random.numeric(5),
+      id: faker.internet.email(),
       nombre: faker.name.firstName(),
       apellido: faker.name.lastName(),
-      email: faker.internet.email(),
+      edad: faker.random.numeric(2),
       alias: faker.internet.userName(),
-      avatar: faker.image.avatar(),
+      avatar: faker.internet.avatar(),
     };
     setCurrentUser(currentUser);
-    console.log("currentUser", currentUser);
+    //console.log("currentUser", currentUser);
 
     const getNow = () => {
       return new Date();
     };
 
     socket.on("connect", () => {
-      console.log("Conectado al servidor");
-      console.log("socket.id", socket.id);
+      console.log("🤝 Conectado al servidor");
+      console.log("socket.id: ", socket.id);
     });
 
     /** Al iniciar le envio al servidor el usuario que se conecto */
@@ -63,10 +63,9 @@ const Chat = () => {
     console.log("sendMessage...");
     e.preventDefault();
     const msg = message;
-    const timestamp = new Date().toLocaleTimeString();
+    const timestamp = new Date();
     const autor = currentUser;
     socket.emit("new-message", {
-      id: faker.random.numeric(5),
       autor: autor,
       texto: msg,
       timestamp: timestamp,
@@ -78,36 +77,7 @@ const Chat = () => {
     setMessage(event.target.value);
   };
 
-  /** ★━━━━━━━━━━━★ NORMALIZR ★━━━━━━━━━━━★*/
-  /** Definir schema autor */
-  const autorSchema = new schema.Entity("autores");
-
-  /** Definir schema mensaje */
-  const mensajeSchema = new schema.Entity("mensajes", {
-    id: { type: String },
-    autor: autorSchema,
-    texto: "",
-    timestamp: { type: Number },
-  });
-
-  const chatSchema = new schema.Entity("chats", {
-    id: { type: String },
-    mensajes: [mensajeSchema],
-  });
-
-  // const denormalizerChat = (chat) => {
-  //     console.log('chat', chat);
-  //     // desnormalizar chat-> esto no esta funcionando... no se porque
-  //     // opciones que probe:
-  //     // const denormalizedChat = denormalize(chat, chatSchema, chat.entities);
-  //     // const denormalizedChat = denormalize(chat.result, chatSchema, chat.entities.chats);
-  //     // const denormalizedChat = denormalize(chat.result, chatSchema, chat.entities.chats[30950]);
-  //     // const denormalizedChat = denormalize(chat.result, chatSchema, chat.entities);
-  //     // const denormalizedChat = denormalize(chat.result, chatSchema, chat.entities);
-  //     //  console.log('denormalizedChat', denormalizedChat);
-  //    // return denormalizedChat;
-  // }
-
+  
   return (
     <>
       <Container maxWidth="xl" sx={{ bgcolor: "#cfe8fc", padding: "50px" }}>
