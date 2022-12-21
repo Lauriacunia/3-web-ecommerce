@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => {
         <CardMedia
           component="img"
           height="250"
-          image={product.thumbnail}
+          image={product.foto}
           sx={{ padding: 3 }}
           alt="product"
         />

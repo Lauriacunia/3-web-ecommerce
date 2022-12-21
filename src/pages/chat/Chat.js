@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 import { faker } from "@faker-js/faker";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -12,9 +12,11 @@ import Alert from "@mui/material/Alert";
 import CheckIcon from "@mui/icons-material/Check";
 
 /** Creo conexión con el server websocket */
-const socket = io.connect("http://localhost:8080");
+//const socket = io("http://localhost:8081",  { transports : ['websocket'] });
+const socket = io.connect("http://localhost:8082", {
+  transports: ["websocket"],
+});
 
-let array = [];
 
 const Chat = () => {
   const [message, setMessage] = useState([]);
@@ -37,6 +39,11 @@ const Chat = () => {
     const getNow = () => {
       return new Date();
     };
+
+    socket.on("connect", () => {
+      console.log("Conectado al servidor");
+      console.log("socket.id", socket.id);
+    });
 
     /** Al iniciar le envio al servidor el usuario que se conecto */
     socket.emit("set-user", currentUser);
